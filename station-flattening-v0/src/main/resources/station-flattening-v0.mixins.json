@@ -16,6 +16,7 @@
     "class_417Mixin",
     "class_467Mixin",
     "DimensionMixin",
+    "DoorBlockMixin",
     "EntityMixin",
     "FallingBlockEntityMixin",
     "FireBlockMixin",
