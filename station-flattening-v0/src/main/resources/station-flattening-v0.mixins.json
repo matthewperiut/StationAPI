@@ -24,6 +24,7 @@
     "ItemStackMixin",
     "MapItemMixin",
     "MobSpawnerLogicMixin",
+    "MushroomPlantBlockMixin",
     "NetherCaveGenMixin",
     "NetherChunkGeneratorMixin",
     "OakTreeFeatureMixin",
