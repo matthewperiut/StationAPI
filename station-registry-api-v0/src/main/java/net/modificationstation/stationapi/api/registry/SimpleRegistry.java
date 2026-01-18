@@ -159,8 +159,8 @@ public class SimpleRegistry<T> implements MutableRegistry<T>, RemappableRegistry
                 throw new AssertionError("Missing intrusive holder for " + registryKey + ":" + value);
 
             reference.setRegistryKey(registryKey);
-            if (reference.hasRawId()) {
-                int reservedRawId = reference.reservedRawId();
+            if (reference instanceof Reference.IntrusiveReserved<?> reserved) {
+                int reservedRawId = reserved.reservedRawId();
                 if (checkReservation && reservedRawId != rawId)
                     throw new RuntimeException("Attempted to register a reserved entry with raw ID " + reservedRawId + " under a different raw ID " + rawId + "!");
                 rawId = reservedRawId;
@@ -414,18 +414,18 @@ public class SimpleRegistry<T> implements MutableRegistry<T>, RemappableRegistry
     public Reference<T> createEntry(T value) {
         assertIntrusive();
         assertNotFrozen();
-        //noinspection unchecked,deprecation,DataFlowIssue
+        //noinspection unchecked,DataFlowIssue
         return intrusiveValueToEntry.computeIfAbsent(value, valuex -> Reference.intrusive(getReadOnlyWrapper(), (T) valuex));
     }
 
     @Override
-    public Reference<T> createReservedEntry(int rawId, T value) {
+    public Reference.IntrusiveReserved<T> createReservedEntry(int rawId, T value) {
         assertIntrusive();
         assertNotFrozen();
         final int newRawId = rawId < 0 ? nextId : rawId;
         if (this.nextId <= newRawId) this.nextId = newRawId + 1;
         //noinspection unchecked,DataFlowIssue
-        return intrusiveValueToEntry.computeIfAbsent(value, valuex -> Reference.intrusive(getReadOnlyWrapper(), newRawId, (T) valuex));
+        return (Reference.IntrusiveReserved<T>) intrusiveValueToEntry.computeIfAbsent(value, valuex -> Reference.intrusive(getReadOnlyWrapper(), (T) valuex, newRawId));
     }
 
     @Override

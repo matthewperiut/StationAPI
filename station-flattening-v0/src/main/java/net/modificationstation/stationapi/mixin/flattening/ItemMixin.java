@@ -33,7 +33,7 @@ abstract class ItemMixin implements StationFlatteningItem {
     @Shadow @Final public int id;
 
     @Unique
-    private RegistryEntry.Reference<Item> stationapi_registryEntry;
+    private RegistryEntry.Reference.IntrusiveReserved<Item> stationapi_registryEntry;
 
     @Override
     @Unique
