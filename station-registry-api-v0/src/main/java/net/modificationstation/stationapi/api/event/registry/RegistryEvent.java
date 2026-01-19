@@ -4,6 +4,7 @@ import com.mojang.serialization.Lifecycle;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import net.mine_diver.unsafeevents.Event;
+import net.modificationstation.stationapi.api.registry.MutableLogicalRegistry;
 import net.modificationstation.stationapi.api.registry.MutableRegistry;
 import net.modificationstation.stationapi.api.registry.Registry;
 import net.modificationstation.stationapi.api.registry.RegistryKey;
@@ -53,6 +54,20 @@ public abstract class RegistryEvent<REGISTRY extends Registry<?>> extends Event 
         @Contract(pure = true)
         public BulkBiConsumer<String, ENTRY> register(ToIntFunction<ENTRY> rawIdGetter, Namespace namespace) {
             return BulkBiConsumer.of((id, entry) -> register(rawIdGetter.applyAsInt(entry), namespace.id(id), entry));
+        }
+    }
+
+    public static abstract class Logical<ENTRY, REGISTRY extends MutableLogicalRegistry<ENTRY> & MutableRegistry<ENTRY>> extends EntryTypeBound<ENTRY, REGISTRY> {
+        protected Logical(REGISTRY registry) {
+            super(registry);
+        }
+
+        public ENTRY registerLogical(int logicalId, Identifier id, ENTRY entry) {
+            return registry.add(logicalId, RegistryKey.of(registry.getKey(), id), entry, Lifecycle.stable()).value();
+        }
+
+        public ENTRY registerLogical(int rawId, int logicalId, Identifier id, ENTRY entry) {
+            return registry.set(rawId, logicalId, RegistryKey.of(registry.getKey(), id), entry, Lifecycle.stable()).value();
         }
     }
 }
