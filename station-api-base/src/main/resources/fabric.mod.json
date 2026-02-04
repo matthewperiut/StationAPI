@@ -18,6 +18,9 @@
   "icon": "assets/station-api-base/icon.png",
 
   "environment": "*",
+  "mixins": [
+    "station-api-base.mixins.json"
+  ],
   "entrypoints": {
     "preLaunch": [
       "net.modificationstation.stationapi.api.StationAPI"

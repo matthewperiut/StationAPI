@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.DataInput;
 import java.io.DataOutput;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.*;
 import java.util.function.*;
@@ -195,12 +196,20 @@ public class NbtOps implements DynamicOps<NbtElement> {
 
         @Override
         public void write(DataOutput out) {
-            array.write(out);
+            try {
+                array.write(out);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         @Override
         public void read(DataInput in) {
-            array.read(in);
+            try {
+                array.read(in);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         @Override

@@ -5,8 +5,8 @@ import net.modificationstation.stationapi.gradle.SubprojectHelpers.addDependency
 
 plugins {
     id("maven-publish")
-    id("fabric-loom") version "1.9-SNAPSHOT"
-    id("babric-loom-extension") version "1.9.2"
+    id("net.fabricmc.fabric-loom-remap") version "1.15.+"
+    id("ploceus") version "1.15-SNAPSHOT"
 }
 
 // https://stackoverflow.com/a/40101046 - Even with kotlin, gradle can't get it's shit together.
@@ -15,18 +15,39 @@ inline fun <reified C> Project.configure(name: String, configuration: C.() -> Un
 }
 
 allprojects {
-    apply(plugin = "maven-publish")
-    apply(plugin = "fabric-loom")
-    apply(plugin = "babric-loom-extension")
+    if (project != rootProject) {
+        apply(plugin = "maven-publish")
+        apply(plugin = "net.fabricmc.fabric-loom-remap")
+        apply(plugin = "ploceus")
+    }
+
+    pluginManager.withPlugin("ploceus") {
+        val ploceus = extensions.getByName<net.ornithemc.ploceus.api.PloceusGradleExtensionApi>("ploceus")
+        ploceus.setIntermediaryGeneration(2)
+
+        dependencies {
+            "minecraft"("com.mojang:minecraft:${project.properties["minecraft_version"]}")
+            "mappings"(ploceus.mappings("net.glasslauncher:biny-ornithe:b1.7.3+build.${project.properties["biny_mappings"]}:mergedv2"))
+            "clientExceptions"(ploceus.raven(project.properties["client_raven_build"].toString(), "client"))
+            "serverExceptions"(ploceus.raven(project.properties["server_raven_build"].toString(), "server"))
+            "clientSignatures"(ploceus.sparrow(project.properties["client_sparrow_build"].toString(), "client"))
+            "serverSignatures"(ploceus.sparrow(project.properties["server_sparrow_build"].toString(), "server"))
+            "clientNests"("net.glasslauncher:biny-nests:b1.7.3-client+build.2")
+            "serverNests"("net.glasslauncher:biny-nests:b1.7.3-server+build.2")
+            "modImplementation"("net.fabricmc:fabric-loader:${project.properties["loader_version"]}")
+        }
+    }
 
     java.sourceCompatibility = JavaVersion.VERSION_17
     java.targetCompatibility = JavaVersion.VERSION_17
 
     repositories {
+        mavenLocal()
         maven(url = "https://maven.minecraftforge.net/")
-        maven(url = "https://maven.glass-launcher.net/babric")
-        maven(url = "https://maven.glass-launcher.net/snapshots")
         maven(url = "https://maven.glass-launcher.net/releases")
+        maven(url = "https://maven.glass-launcher.net/snapshots")
+        maven(url = "https://mvn.devos.one/releases")
+        maven(url = "https://maven.wispforest.io")
         maven(url = "https://jitpack.io/")
         mavenCentral()
         exclusiveContent {
@@ -47,7 +68,10 @@ allprojects {
         all {
             exclude(group = "org.ow2.asm", module = "asm-debug-all")
             exclude(group = "org.ow2.asm", module = "asm-all")
-            exclude(group = "babric")
+            // Force correct Guava version to avoid conflicts
+            resolutionStrategy {
+                force("com.google.guava:guava:31.1-jre")
+            }
         }
     }
 
@@ -55,16 +79,17 @@ allprojects {
         implementation("org.slf4j:slf4j-api:1.8.0-beta4")
         implementation("org.apache.logging.log4j:log4j-slf4j18-impl:2.17.2")
 
-        implementation("org.apache.logging.log4j:log4j-core:2.17.2")
-        implementation("com.google.guava:guava:33.2.1-jre")
+        implementation("org.apache.logging.log4j:log4j-core:2.17.2") {
+            exclude(group = "com.google.guava", module = "guava")
+        }
+        implementation("net.ornithemc:logger-config:1.0.0") {
+            exclude(group = "com.google.guava", module = "guava")
+        }
+        implementation("com.google.guava:guava:31.1-jre")
         implementation("com.google.code.gson:gson:2.9.0")
 
         //to change the versions see the gradle.properties file
-        minecraft("com.mojang:minecraft:${project.properties["minecraft_version"]}")
-
-        mappings("net.glasslauncher:biny:${project.properties["yarn_mappings"]}:v2")
-
-        modImplementation("net.fabricmc:fabric-loader:${project.properties["loader_version"]}")
+        //minecraft and mappings are added in the ploceus withPlugin block above
 
         "transitiveImplementation"(implementation("org.apache.commons:commons-lang3:3.12.0") as Dependency)
         "transitiveImplementation"(implementation("commons-io:commons-io:2.11.0") as Dependency)
@@ -98,6 +123,7 @@ allprojects {
 
         // Optional bugfix mod for testing qol. Remove the // to enable.
         //modLocalRuntime "maven.modrinth:mojangfix:${project.properties["mojangfix_version"]}"
+
     }
 
     sourceSets {
@@ -255,6 +281,8 @@ dependencies {
     include("com.github.ben-manes.caffeine:caffeine:${project.properties["caffeine_version"]}")
     include("com.mojang:datafixerupper:${project.properties["dfu_version"]}")
     include("maven.modrinth:spasm:${project.properties["spasm_version"]}")
+    include("com.google.guava:guava:31.1-jre")
+    include("org.apache.commons:commons-lang3:3.12.0")
 }
 
 // Makes java shut up
@@ -262,6 +290,11 @@ configure<JavaCompile>("compileTestJava") {
     options.compilerArgs.add("-XDignore.symbol.file")
     options.isFork = true
     options.forkOptions.executable = System.getProperty("java.home") + "/bin/javac" + (if (System.getProperty("os.name").startsWith("Windows")) ".exe" else "")
+}
+
+// Don't fail test task when no tests are discovered (these are mod test classes, not unit tests)
+tasks.withType<Test> {
+    failOnNoDiscoveredTests = false
 }
 
 publishing {

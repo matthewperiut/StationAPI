@@ -1,6 +1,7 @@
 package net.modificationstation.stationapi.mixin.worldgen;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.EntitySpawnGroup;
@@ -95,17 +96,17 @@ class BiomeMixin implements StationBiome {
     }
 
     @Override
-    public void addPassiveEntity(Class<? extends Entity> entityClass, int rarity) {
+    public void addPassiveEntity(Class<? extends LivingEntity> entityClass, int rarity) {
         this.spawnablePassive.add(new EntitySpawnGroup(entityClass, rarity));
     }
 
     @Override
-    public void addHostileEntity(Class<? extends Entity> entityClass, int rarity) {
+    public void addHostileEntity(Class<? extends LivingEntity> entityClass, int rarity) {
         this.spawnableMonsters.add(new EntitySpawnGroup(entityClass, rarity));
     }
 
     @Override
-    public void addWaterEntity(Class<? extends Entity> entityClass, int rarity) {
+    public void addWaterEntity(Class<? extends LivingEntity> entityClass, int rarity) {
         this.spawnableWaterCreatures.add(new EntitySpawnGroup(entityClass, rarity));
     }
 

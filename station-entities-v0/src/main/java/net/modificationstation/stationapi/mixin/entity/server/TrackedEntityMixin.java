@@ -10,6 +10,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.io.IOException;
+
 @Mixin(EntityTrackerEntry.class)
 class TrackedEntityMixin {
     @Shadow
@@ -21,7 +23,12 @@ class TrackedEntityMixin {
             cancellable = true
     )
     private void stationapi_getSpawnData(CallbackInfoReturnable<Packet> cir) {
-        if (this.currentTrackedEntity instanceof CustomSpawnDataProvider provider)
-            cir.setReturnValue(provider.getSpawnData());
+        if (this.currentTrackedEntity instanceof CustomSpawnDataProvider provider) {
+            try {
+                cir.setReturnValue(provider.getSpawnData());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

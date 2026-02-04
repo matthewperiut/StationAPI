@@ -27,6 +27,7 @@ import net.modificationstation.stationapi.mixin.entity.client.ClientNetworkHandl
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.util.Arrays;
 import java.util.List;
@@ -74,8 +75,13 @@ public final class EntityClientNetworkHandler {
                         hasOwner.setOwner(networkHandler.invokeGetEntity(message.ints[4]));
                     entity.setVelocityClient((double) message.shorts[0] / 8000.0D, (double) message.shorts[1] / 8000.0D, (double) message.shorts[2] / 8000.0D);
                 }
-                if (message.bytes != null)
-                    entity.getDataTracker().writeUpdatedEntries(DataTracker.readEntries(new DataInputStream(new ByteArrayInputStream(message.bytes))));
+                if (message.bytes != null) {
+                    try {
+                        entity.getDataTracker().writeUpdatedEntries(DataTracker.readEntries(new DataInputStream(new ByteArrayInputStream(message.bytes))));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
                 if (entity instanceof StationSpawnDataProvider provider)
                     provider.readFromMessage(message);
             }
@@ -104,7 +110,12 @@ public final class EntityClientNetworkHandler {
                 mob.interpolateOnly = true;
                 world.forceEntity(message.ints[0], mob);
                 //noinspection unchecked
-                List<DataTrackerEntry> data = DataTracker.readEntries(new DataInputStream(new ByteArrayInputStream(Arrays.copyOfRange(message.bytes, 2, message.bytes.length))));
+                List<DataTrackerEntry> data = null;
+                try {
+                    data = DataTracker.readEntries(new DataInputStream(new ByteArrayInputStream(Arrays.copyOfRange(message.bytes, 2, message.bytes.length))));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 if (data != null)
                     mob.getDataTracker().writeUpdatedEntries(data);
                 if (mob instanceof StationSpawnDataProvider provider)

@@ -11,11 +11,12 @@ import net.modificationstation.stationapi.api.util.Identifier;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 
 public interface EntitySpawnDataProvider extends StationSpawnDataProvider {
 
     @Override
-    default Packet getSpawnData() {
+    default Packet getSpawnData() throws IOException {
         Entity entity = (Entity) this;
         int ownerId = 0;
         if (entity instanceof HasOwner hasOwner) {
