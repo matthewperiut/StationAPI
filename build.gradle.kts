@@ -42,7 +42,6 @@ allprojects {
     java.targetCompatibility = JavaVersion.VERSION_17
 
     repositories {
-        mavenLocal()
         maven(url = "https://maven.minecraftforge.net/")
         maven(url = "https://maven.glass-launcher.net/releases")
         maven(url = "https://maven.glass-launcher.net/snapshots")
@@ -102,7 +101,7 @@ allprojects {
         "transitiveImplementation"(implementation("me.carleslc:Simple-Yaml:1.8.4") as Dependency)
 
         // not a runtime dependency unless we use something outside its events.
-        modImplementation("net.glasslauncher.mods:GlassConfigAPI:${project.properties["gcapi_version"]}")
+        modImplementation("net.glasslauncher.mods:GlassConfigAPI:${project.properties["gcapi_version"]}+gen2")
 
         // convenience stuff
         // adds some useful annotations for data classes. does not add any dependencies
