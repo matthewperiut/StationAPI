@@ -220,11 +220,14 @@ version = (if (project.hasProperty("override_version")) (project.properties["ove
 
 subprojects {
     // This makes the older pre-releases easier to clean up.
-    group = if (rootProject.hasProperty("override_version")) {
-        (project.properties["maven_group"] as String) + ".StationAPI.${(project.properties["override_version"] as String).substring(0, 7)}"
-    }
-    else {
-        (project.properties["maven_group"] as String) + ".StationAPI.submodule.${project.properties["archivesBaseName"]}"
+    // Use afterEvaluate to ensure subproject's archivesName is set before we read it
+    afterEvaluate {
+        group = if (rootProject.hasProperty("override_version")) {
+            (project.properties["maven_group"] as String) + ".StationAPI.${(project.properties["override_version"] as String).substring(0, 7)}"
+        }
+        else {
+            (project.properties["maven_group"] as String) + ".StationAPI.submodule.${base.archivesName.get()}"
+        }
     }
 
     configurations {
