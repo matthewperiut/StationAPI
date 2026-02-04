@@ -20,7 +20,7 @@ Extra steps for better Mixin making and Fabric configuring in IntelliJ IDEA:
 
 You will want to install the [Babric Prism instance](https://github.com/babric/prism-instance) and [download the latest release of StationAPI](https://modrinth.com/mod/stationapi/version/latest).  
 Put the downloaded StationAPI jar into your mods folder, do NOT add as a jar mod.
-Make sure to use Java 17 (disable Java compatibility checks in Prism if it complains).
+Make sure to use Java 21 (disable Java compatibility checks in Prism if it complains).
 
 ## Using This to Make Mods
 
