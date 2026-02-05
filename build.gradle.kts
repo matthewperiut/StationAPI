@@ -38,8 +38,8 @@ allprojects {
         }
     }
 
-    java.sourceCompatibility = JavaVersion.VERSION_17
-    java.targetCompatibility = JavaVersion.VERSION_17
+    java.sourceCompatibility = JavaVersion.VERSION_21
+    java.targetCompatibility = JavaVersion.VERSION_21
 
     repositories {
         maven(url = "https://maven.minecraftforge.net/")
@@ -113,10 +113,10 @@ allprojects {
         // adds some useful annotations for miscellaneous uses. does not add any dependencies, though people without the lib will be missing some useful context hints.
         implementation("org.jetbrains:annotations:23.0.0")
 
-        modLocalRuntime("net.glasslauncher.mods:ModMenu:${project.properties["modmenu_version"]}")
-        modLocalRuntime("maven.modrinth:retrocommands:${project.properties["rc_version"]}") {
-            isTransitive = false
-        }
+//        modLocalRuntime("net.glasslauncher.mods:ModMenu:${project.properties["modmenu_version"]}")
+//        modLocalRuntime("maven.modrinth:retrocommands:${project.properties["rc_version"]}") {
+//            isTransitive = false
+//        }
 
         annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.4.1")
 
