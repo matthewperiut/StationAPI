@@ -4,6 +4,7 @@
   "package": "net.modificationstation.stationapi.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "CraftingRecipeManagerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
