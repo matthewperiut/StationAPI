@@ -94,7 +94,6 @@ allprojects {
         "transitiveImplementation"(implementation("commons-io:commons-io:2.11.0") as Dependency)
         "transitiveImplementation"(implementation("net.jodah:typetools:${project.properties["typetools_version"]}") as Dependency)
         "transitiveImplementation"(implementation("com.github.mineLdiver:UnsafeEvents:${project.properties["unsafeevents_version"]}") as Dependency)
-        "transitiveImplementation"(implementation("it.unimi.dsi:fastutil:${project.properties["fastutil_version"]}") as Dependency)
         "transitiveImplementation"(implementation("com.github.ben-manes.caffeine:caffeine:${project.properties["caffeine_version"]}") as Dependency)
         "transitiveImplementation"(implementation("com.mojang:datafixerupper:${project.properties["dfu_version"]}") as Dependency)
         "transitiveImplementation"(implementation("maven.modrinth:spasm:${project.properties["spasm_version"]}") as Dependency)
@@ -276,7 +275,6 @@ subprojects {
 dependencies {
     include("net.jodah:typetools:${project.properties["typetools_version"]}")
     include("com.github.mineLdiver:UnsafeEvents:${project.properties["unsafeevents_version"]}")
-    include("it.unimi.dsi:fastutil:${project.properties["fastutil_version"]}")
     include("com.github.ben-manes.caffeine:caffeine:${project.properties["caffeine_version"]}")
     include("com.mojang:datafixerupper:${project.properties["dfu_version"]}")
     include("maven.modrinth:spasm:${project.properties["spasm_version"]}")
