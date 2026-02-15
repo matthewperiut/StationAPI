@@ -23,12 +23,7 @@ class TrackedEntityMixin {
             cancellable = true
     )
     private void stationapi_getSpawnData(CallbackInfoReturnable<Packet> cir) {
-        if (this.currentTrackedEntity instanceof CustomSpawnDataProvider provider) {
-            try {
-                cir.setReturnValue(provider.getSpawnData());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        if (this.currentTrackedEntity instanceof CustomSpawnDataProvider provider)
+            cir.setReturnValue(provider.getSpawnData());
     }
 }

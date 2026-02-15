@@ -16,7 +16,7 @@ import java.io.IOException;
 public interface EntitySpawnDataProvider extends StationSpawnDataProvider {
 
     @Override
-    default Packet getSpawnData() throws IOException {
+    default Packet getSpawnData() {
         Entity entity = (Entity) this;
         int ownerId = 0;
         if (entity instanceof HasOwner hasOwner) {
@@ -33,7 +33,11 @@ public interface EntitySpawnDataProvider extends StationSpawnDataProvider {
         }
         if (syncTrackerAtSpawn()) {
             var stream = new ByteArrayOutputStream();
-            entity.getDataTracker().writeAllEntries(new DataOutputStream(stream));
+            try {
+                entity.getDataTracker().writeAllEntries(new DataOutputStream(stream));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             message.bytes = stream.toByteArray();
         }
         writeToMessage(message);
