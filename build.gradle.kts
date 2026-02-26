@@ -32,8 +32,8 @@ allprojects {
             "serverExceptions"(ploceus.raven(project.properties["server_raven_build"].toString(), "server"))
             "clientSignatures"(ploceus.sparrow(project.properties["client_sparrow_build"].toString(), "client"))
             "serverSignatures"(ploceus.sparrow(project.properties["server_sparrow_build"].toString(), "server"))
-            "clientNests"("net.glasslauncher:biny-nests:b1.7.3-client+build.2")
-            "serverNests"("net.glasslauncher:biny-nests:b1.7.3-server+build.2")
+            "clientNests"("net.glasslauncher:biny-nests:b1.7.3-client+build.3")
+            "serverNests"("net.glasslauncher:biny-nests:b1.7.3-server+build.3")
             "modImplementation"("net.fabricmc:fabric-loader:${project.properties["loader_version"]}")
         }
     }
