@@ -26,6 +26,8 @@ public interface RegistryEntry<T> {
 
     Stream<TagKey<T>> streamTags();
 
+    Set<TagKey<T>> getTags();
+
     Either<RegistryKey<T>, T> getKeyOrValue();
 
     Optional<RegistryKey<T>> getKey();
@@ -93,6 +95,11 @@ public interface RegistryEntry<T> {
         public Stream<TagKey<T>> streamTags() {
             return Stream.of();
         }
+
+        @Override
+        public Set<TagKey<T>> getTags() {
+            return Set.of();
+        }
     }
 
     abstract class Reference<ENTRY> implements RegistryEntry<ENTRY> {
@@ -156,6 +163,11 @@ public interface RegistryEntry<T> {
         @Override
         public Stream<TagKey<ENTRY>> streamTags() {
             return this.tags.stream();
+        }
+
+        @Override
+        public Set<TagKey<ENTRY>> getTags() {
+            return tags;
         }
 
         public String toString() {
