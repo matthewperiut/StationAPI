@@ -38,8 +38,8 @@ allprojects {
         }
     }
 
-    java.sourceCompatibility = JavaVersion.VERSION_21
-    java.targetCompatibility = JavaVersion.VERSION_21
+    java.sourceCompatibility = JavaVersion.VERSION_25
+    java.targetCompatibility = JavaVersion.VERSION_25
 
     repositories {
         maven(url = "https://maven.minecraftforge.net/")
@@ -69,7 +69,7 @@ allprojects {
             exclude(group = "org.ow2.asm", module = "asm-all")
             // Force correct Guava version to avoid conflicts
             resolutionStrategy {
-                force("com.google.guava:guava:31.1-jre")
+                force("com.google.guava:guava:33.5.0-jre")
             }
         }
     }
@@ -84,30 +84,28 @@ allprojects {
         implementation("net.ornithemc:logger-config:1.0.0") {
             exclude(group = "com.google.guava", module = "guava")
         }
-        implementation("com.google.guava:guava:31.1-jre")
+        implementation("com.google.guava:guava:33.5.0-jre")
         implementation("com.google.code.gson:gson:2.9.0")
 
         //to change the versions see the gradle.properties file
         //minecraft and mappings are added in the ploceus withPlugin block above
 
-        "transitiveImplementation"(implementation("org.apache.commons:commons-lang3:3.12.0") as Dependency)
         "transitiveImplementation"(implementation("commons-io:commons-io:2.11.0") as Dependency)
         "transitiveImplementation"(implementation("net.jodah:typetools:${project.properties["typetools_version"]}") as Dependency)
         "transitiveImplementation"(implementation("com.github.mineLdiver:UnsafeEvents:${project.properties["unsafeevents_version"]}") as Dependency)
-        "transitiveImplementation"(implementation("com.github.ben-manes.caffeine:caffeine:${project.properties["caffeine_version"]}") as Dependency)
         "transitiveImplementation"(implementation("com.mojang:datafixerupper:${project.properties["dfu_version"]}") as Dependency)
         "transitiveImplementation"(implementation("maven.modrinth:spasm:${project.properties["spasm_version"]}") as Dependency)
         "transitiveImplementation"(implementation("me.carleslc:Simple-Yaml:1.8.4") as Dependency)
 
         // not a runtime dependency unless we use something outside its events.
-        modImplementation("net.glasslauncher.mods:GlassConfigAPI:${project.properties["gcapi_version"]}+gen2")
+        modImplementation("net.glasslauncher.mods:GlassConfigAPI:${project.properties["gcapi_version"]}")
 
         // convenience stuff
         // adds some useful annotations for data classes. does not add any dependencies
-        compileOnly("org.projectlombok:lombok:1.18.30")
-        annotationProcessor("org.projectlombok:lombok:1.18.30")
-        testCompileOnly("org.projectlombok:lombok:1.18.30")
-        testAnnotationProcessor("org.projectlombok:lombok:1.18.30")
+        compileOnly("org.projectlombok:lombok:1.18.42")
+        annotationProcessor("org.projectlombok:lombok:1.18.42")
+        testCompileOnly("org.projectlombok:lombok:1.18.42")
+        testAnnotationProcessor("org.projectlombok:lombok:1.18.42")
 
         // adds some useful annotations for miscellaneous uses. does not add any dependencies, though people without the lib will be missing some useful context hints.
         implementation("org.jetbrains:annotations:23.0.0")
@@ -275,11 +273,10 @@ subprojects {
 dependencies {
     include("net.jodah:typetools:${project.properties["typetools_version"]}")
     include("com.github.mineLdiver:UnsafeEvents:${project.properties["unsafeevents_version"]}")
-    include("com.github.ben-manes.caffeine:caffeine:${project.properties["caffeine_version"]}")
     include("com.mojang:datafixerupper:${project.properties["dfu_version"]}")
     include("maven.modrinth:spasm:${project.properties["spasm_version"]}")
-    include("com.google.guava:guava:31.1-jre")
-    include("org.apache.commons:commons-lang3:3.12.0")
+    include("com.google.guava:guava:33.5.0-jre")
+    include("com.google.guava:failureaccess:1.0.3")
 }
 
 // Makes java shut up

@@ -1,8 +1,8 @@
 package net.modificationstation.stationapi.api.util.collection;
 
+import com.google.common.base.Preconditions;
 import net.modificationstation.stationapi.api.world.chunk.CompactingPackedIntegerArray;
 import net.modificationstation.stationapi.impl.world.chunk.Palette;
-import org.apache.commons.lang3.Validate;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.IntConsumer;
@@ -59,7 +59,7 @@ implements PaletteStorage, CompactingPackedIntegerArray {
     }
 
     public PackedIntegerArray(int elementBits, int size, @SuppressWarnings("NullableProblems") @Nullable long[] data) {
-        Validate.inclusiveBetween(1L, 32L, elementBits);
+        Preconditions.checkArgument(elementBits >= 1 && elementBits <= 32);
         this.size = size;
         this.elementBits = elementBits;
         this.maxValue = (1L << elementBits) - 1L;
@@ -87,8 +87,8 @@ implements PaletteStorage, CompactingPackedIntegerArray {
 
     @Override
     public int swap(int index, int value) {
-        Validate.inclusiveBetween(0L, this.size - 1, index);
-        Validate.inclusiveBetween(0L, this.maxValue, value);
+        Preconditions.checkArgument(index >= 0 && index < this.size);
+        Preconditions.checkArgument(value >= 0 && value <= this.maxValue);
         int i = this.getStorageIndex(index);
         long l = this.data[i];
         int j = (index - i * this.elementsPerLong) * this.elementBits;
@@ -99,8 +99,8 @@ implements PaletteStorage, CompactingPackedIntegerArray {
 
     @Override
     public void set(int index, int value) {
-        Validate.inclusiveBetween(0L, this.size - 1, index);
-        Validate.inclusiveBetween(0L, this.maxValue, value);
+        Preconditions.checkArgument(index >= 0 && index < this.size);
+        Preconditions.checkArgument(value >= 0 && value <= this.maxValue);
         int i = this.getStorageIndex(index);
         long l = this.data[i];
         int j = (index - i * this.elementsPerLong) * this.elementBits;
@@ -109,7 +109,7 @@ implements PaletteStorage, CompactingPackedIntegerArray {
 
     @Override
     public int get(int index) {
-        Validate.inclusiveBetween(0L, this.size - 1, index);
+        Preconditions.checkArgument(index >= 0 && index < this.size);
         int i = this.getStorageIndex(index);
         long l = this.data[i];
         int j = (index - i * this.elementsPerLong) * this.elementBits;
