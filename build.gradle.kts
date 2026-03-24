@@ -32,8 +32,8 @@ allprojects {
             "serverExceptions"(ploceus.raven(project.properties["server_raven_build"].toString(), "server"))
             "clientSignatures"(ploceus.sparrow(project.properties["client_sparrow_build"].toString(), "client"))
             "serverSignatures"(ploceus.sparrow(project.properties["server_sparrow_build"].toString(), "server"))
-            "clientNests"("net.glasslauncher:biny-nests:b1.7.3-client+build.3")
-            "serverNests"("net.glasslauncher:biny-nests:b1.7.3-server+build.3")
+            "clientNests"(ploceus.nests(project.properties["client_nests_build"].toString(), "client"))
+            "serverNests"(ploceus.nests(project.properties["server_nests_build"].toString(), "server"))
             "modImplementation"("net.fabricmc:fabric-loader:${project.properties["loader_version"]}")
         }
     }
@@ -78,7 +78,7 @@ allprojects {
         implementation("org.slf4j:slf4j-api:1.8.0-beta4")
         implementation("org.apache.logging.log4j:log4j-slf4j18-impl:2.17.2")
 
-        implementation("org.apache.logging.log4j:log4j-core:2.17.2") {
+        implementation("org.apache.logging.log4j:log4j-core:2.17.2"){
             exclude(group = "com.google.guava", module = "guava")
         }
         implementation("net.ornithemc:logger-config:1.0.0") {
@@ -90,6 +90,7 @@ allprojects {
         //to change the versions see the gradle.properties file
         //minecraft and mappings are added in the ploceus withPlugin block above
 
+        "transitiveImplementation"(implementation("org.apache.commons:commons-lang3:3.17.0") as Dependency)
         "transitiveImplementation"(implementation("commons-io:commons-io:2.11.0") as Dependency)
         "transitiveImplementation"(implementation("net.jodah:typetools:${project.properties["typetools_version"]}") as Dependency)
         "transitiveImplementation"(implementation("com.github.mineLdiver:UnsafeEvents:${project.properties["unsafeevents_version"]}") as Dependency)
@@ -277,6 +278,7 @@ dependencies {
     include("maven.modrinth:spasm:${project.properties["spasm_version"]}")
     include("com.google.guava:guava:33.5.0-jre")
     include("com.google.guava:failureaccess:1.0.3")
+    include("org.apache.commons:commons-lang3:3.17.0")
 }
 
 // Makes java shut up

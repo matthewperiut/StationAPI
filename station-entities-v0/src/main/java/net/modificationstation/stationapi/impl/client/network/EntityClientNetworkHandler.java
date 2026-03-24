@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.DataTrackerEntry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.ClientWorld;
 import net.minecraft.world.World;
@@ -110,7 +109,7 @@ public final class EntityClientNetworkHandler {
                 mob.interpolateOnly = true;
                 world.forceEntity(message.ints[0], mob);
                 //noinspection unchecked
-                List<DataTrackerEntry> data = null;
+                List<DataTracker.DataTrackerEntry> data = null;
                 try {
                     data = DataTracker.readEntries(new DataInputStream(new ByteArrayInputStream(Arrays.copyOfRange(message.bytes, 2, message.bytes.length))));
                 } catch (IOException e) {

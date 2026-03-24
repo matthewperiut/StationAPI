@@ -4,7 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.EntitySpawnGroup;
 import net.minecraft.world.gen.feature.Feature;
 import net.modificationstation.stationapi.api.block.BlockState;
 import net.modificationstation.stationapi.api.worldgen.biome.BiomeColorProvider;
@@ -97,17 +96,17 @@ class BiomeMixin implements StationBiome {
 
     @Override
     public void addPassiveEntity(Class<? extends LivingEntity> entityClass, int rarity) {
-        this.spawnablePassive.add(new EntitySpawnGroup(entityClass, rarity));
+        this.spawnablePassive.add(new Biome.EntitySpawnGroup(entityClass, rarity));
     }
 
     @Override
     public void addHostileEntity(Class<? extends LivingEntity> entityClass, int rarity) {
-        this.spawnableMonsters.add(new EntitySpawnGroup(entityClass, rarity));
+        this.spawnableMonsters.add(new Biome.EntitySpawnGroup(entityClass, rarity));
     }
 
     @Override
     public void addWaterEntity(Class<? extends LivingEntity> entityClass, int rarity) {
-        this.spawnableWaterCreatures.add(new EntitySpawnGroup(entityClass, rarity));
+        this.spawnableWaterCreatures.add(new Biome.EntitySpawnGroup(entityClass, rarity));
     }
 
     @Override
