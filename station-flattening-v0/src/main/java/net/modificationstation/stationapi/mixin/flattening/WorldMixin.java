@@ -34,14 +34,14 @@ abstract class WorldMixin implements StationFlatteningWorld {
 
     @Override
     @Unique
-    public BlockState setBlockState(int x, int y, int z, BlockState blockState) {
+    public BlockState setBlockStateWithoutNotifyingNeighbors(int x, int y, int z, BlockState blockState) {
         return getChunkFromPos(x, z).setBlockState(x & 15, y, z & 15, blockState);
     }
 
     @Override
     @Unique
-    public BlockState setBlockStateWithNotify(int x, int y, int z, BlockState blockState) {
-        BlockState oldBlockState = setBlockState(x, y, z, blockState);
+    public BlockState setBlockState(int x, int y, int z, BlockState blockState) {
+        BlockState oldBlockState = setBlockStateWithoutNotifyingNeighbors(x, y, z, blockState);
         if (oldBlockState != null) {
             blockUpdate(x, y, z, blockState.getBlock().id);
             return oldBlockState;

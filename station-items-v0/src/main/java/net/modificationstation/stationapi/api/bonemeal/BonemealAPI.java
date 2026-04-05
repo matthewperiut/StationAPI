@@ -80,7 +80,7 @@ public class BonemealAPI {
             if (!worldState.isAir()) return false;
             if (state.getBlock().canPlaceAt(world, x, y, z)) {
                 if (!world.isRemote) {
-                    world.setBlockState(x, y, z, state);
+                    world.setBlockStateWithoutNotifyingNeighbors(x, y, z, state);
                 }
                 return true;
             }
@@ -97,7 +97,7 @@ public class BonemealAPI {
             if (!worldState.isAir()) return false;
             if (STATE.getBlock().canPlaceAt(world, x, y, z)) {
                 if (!world.isRemote) {
-                    world.setBlockState(x, y, z, STATE);
+                    world.setBlockStateWithoutNotifyingNeighbors(x, y, z, STATE);
                     world.setBlockMeta(x, y, z, 1);
                 }
                 return true;
