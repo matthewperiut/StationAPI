@@ -4,7 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.ScreenHandler;
 import net.modificationstation.stationapi.api.network.packet.MessagePacket;
-import net.modificationstation.stationapi.impl.InventoryMessagePacket;
+import net.modificationstation.stationapi.impl.network.packet.play.InventoryMessagePacket;
 import net.modificationstation.stationapi.impl.gui.screen.container.GuiHelperImpl;
 
 public class GuiHelperClientImpl extends GuiHelperImpl {
