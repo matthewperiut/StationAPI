@@ -232,7 +232,6 @@ public class MessagePacket extends Packet implements ManagedPacket<MessagePacket
             identifier = Identifier.of(readString(in, 32767));
             short s = in.readShort();
             boolean[] present = new boolean[]{
-                    (s & 512) != 0,
                     (s & 256) != 0,
                     (s & 128) != 0,
                     (s & 64) != 0,

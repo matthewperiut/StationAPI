@@ -15,6 +15,7 @@ import net.modificationstation.stationapi.api.mod.entrypoint.EntrypointManager;
 import net.modificationstation.stationapi.api.mod.entrypoint.EventBusPolicy;
 import net.modificationstation.stationapi.api.network.packet.MessagePacket;
 import net.modificationstation.stationapi.api.util.Identifier;
+import net.modificationstation.stationapi.impl.InventoryMessagePacket;
 
 import java.lang.invoke.MethodHandles;
 
@@ -38,7 +39,7 @@ public final class GuiClientNetworkHandler {
         GuiHandler guiHandler = GuiHandlerRegistry.INSTANCE.get(Identifier.of(message.strings[0]));
         if (guiHandler != null)
             //noinspection deprecation
-            ((Minecraft) FabricLoader.getInstance().getGameInstance()).setScreen(guiHandler.screenFactory().create(player, isClient ? guiHandler.inventoryFactory().create() : (Inventory) message.objects[0], message));
+            ((Minecraft) FabricLoader.getInstance().getGameInstance()).setScreen(guiHandler.screenFactory().create(player, isClient ? guiHandler.inventoryFactory().create() : ((InventoryMessagePacket) message).inventory, message));
         if (isClient)
             player.currentScreenHandler.syncId = message.ints[0];
     }
