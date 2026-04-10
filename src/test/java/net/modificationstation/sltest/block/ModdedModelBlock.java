@@ -15,7 +15,7 @@ import static net.modificationstation.stationapi.api.state.property.Properties.H
 
 public class ModdedModelBlock extends TemplateBlock {
 
-    private static final Direction[] DIRECTIONS = new Direction[] { Direction.WEST, Direction.NORTH, Direction.EAST, Direction.SOUTH };
+    private static final Direction[] DIRECTIONS = new Direction[] { Direction.SOUTH, Direction.WEST, Direction.NORTH, Direction.EAST};
 
     protected ModdedModelBlock(Identifier id, Material material) {
         super(id, material);
