@@ -1,10 +1,8 @@
-package net.modificationstation.stationapi.impl;
+package net.modificationstation.stationapi.impl.network.packet.play;
 
 import net.minecraft.inventory.Inventory;
 import net.modificationstation.stationapi.api.network.packet.MessagePacket;
-import net.modificationstation.stationapi.api.network.packet.PacketType;
 import net.modificationstation.stationapi.api.util.Identifier;
-import org.jetbrains.annotations.NotNull;
 
 public class InventoryMessagePacket extends MessagePacket {
     public Inventory inventory;
