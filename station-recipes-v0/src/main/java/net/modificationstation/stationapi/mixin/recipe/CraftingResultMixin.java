@@ -6,6 +6,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.CraftingResultSlot;
 import net.modificationstation.stationapi.api.StationAPI;
+import net.modificationstation.stationapi.api.event.container.slot.ItemCraftedEvent;
 import net.modificationstation.stationapi.api.event.container.slot.ItemUsedInCraftingEvent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -46,4 +47,22 @@ class CraftingResultMixin {
                         .build()
         );
     }
+
+    @Inject(
+            method = "onTakeItem",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/item/ItemStack;onCraft(Lnet/minecraft/world/World;Lnet/minecraft/entity/player/PlayerEntity;)V",
+                    shift = At.Shift.AFTER
+            )
+    )
+    private void stationapi_onTake(ItemStack stack, CallbackInfo ci) {
+        StationAPI.EVENT_BUS.post(
+                ItemCraftedEvent.builder()
+                        .player(player)
+                        .craftingMatrix(input)
+                        .itemCrafted(stack).build()
+        );
+    }
+
 }
