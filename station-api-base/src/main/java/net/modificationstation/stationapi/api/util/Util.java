@@ -102,6 +102,21 @@ public class Util {
         LOGGER.error(message);
     }
 
+    public static String toCamelCase(String snakeCase) {
+        if (snakeCase == null || snakeCase.isEmpty()) return snakeCase;
+        StringBuilder result = new StringBuilder();
+        boolean nextUpper = false;
+        for (int i = 0; i < snakeCase.length(); i++) {
+            char c = snakeCase.charAt(i);
+            if (c == '_') nextUpper = true;
+            else if (nextUpper) {
+                result.append(Character.toUpperCase(c));
+                nextUpper = false;
+            } else result.append(c);
+        }
+        return result.toString();
+    }
+
     public static <T extends Throwable> T throwOrPause(T t) {
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
             LOGGER.error("Trying to throw a fatal exception, pausing in IDE", t);
