@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.modificationstation.stationapi.api.registry.BlockRegistry;
 import net.modificationstation.stationapi.api.registry.Registry;
 import net.modificationstation.stationapi.api.util.Identifier;
-import net.modificationstation.stationapi.api.util.Util;
 
 public interface BlockTemplate {
     static int getNextId() {
@@ -13,6 +12,6 @@ public interface BlockTemplate {
 
     static void onConstructor(Block block, Identifier id) {
         Registry.register(BlockRegistry.INSTANCE, block.id, id, block);
-        block.setTranslationKey(id.namespace, Util.toCamelCase(id.path));
+        block.setTranslationKey(id.namespace, id.path);
     }
 }

@@ -4,7 +4,6 @@ import net.minecraft.item.Item;
 import net.modificationstation.stationapi.api.registry.ItemRegistry;
 import net.modificationstation.stationapi.api.registry.Registry;
 import net.modificationstation.stationapi.api.util.Identifier;
-import net.modificationstation.stationapi.api.util.Util;
 
 public interface ItemTemplate {
     static int getNextId() {
@@ -13,6 +12,6 @@ public interface ItemTemplate {
 
     static void onConstructor(Item item, Identifier id) {
         Registry.register(ItemRegistry.INSTANCE, item.id, id, item);
-        item.setTranslationKey(id.namespace, Util.toCamelCase(id.path));
+        item.setTranslationKey(id.namespace, id.path);
     }
 }
