@@ -37,15 +37,17 @@ class CraftingResultMixin {
             ItemStack arg, CallbackInfo ci,
             @Local(index = 2) int var2, @Local(index = 3) ItemStack var3
     ) {
-        StationAPI.EVENT_BUS.post(
-                ItemUsedInCraftingEvent.builder()
-                        .player(player)
-                        .craftingMatrix(input)
-                        .itemOrdinal(var2)
-                        .itemCrafted(arg)
-                        .itemUsed(var3)
-                        .build()
-        );
+        if (var3 != null) {
+            StationAPI.EVENT_BUS.post(
+                    ItemUsedInCraftingEvent.builder()
+                            .player(player)
+                            .craftingMatrix(input)
+                            .itemOrdinal(var2)
+                            .itemCrafted(arg)
+                            .itemUsed(var3)
+                            .build()
+            );
+        }
     }
 
     @Inject(
