@@ -9,26 +9,12 @@ import net.modificationstation.stationapi.api.util.Identifier;
 public class EntityRegisterEvent extends Event {
     @FunctionalInterface
     public interface RegisterFunction {
-        void register(Class<? extends Entity> entityClass, String entityIdentifier, int entityId);
-    }
-
-    @FunctionalInterface
-    public interface RegisterFunctionNoId {
-        void register(Class<? extends Entity> entityClass, String entityIdentifier);
+        void register(Class<? extends Entity> entityClass, Identifier entityIdentifier);
     }
 
     public final RegisterFunction register;
-    public final RegisterFunctionNoId registerNoID;
 
-    public final void register(String entityIdentifier, int entityId, Class<? extends Entity> entityClass) {
-        register.register(entityClass, entityIdentifier, entityId);
-    }
-
-    public final void register(String entityIdentifier, Class<? extends Entity> entityClass) {
-        registerNoID.register(entityClass, entityIdentifier);
-    }
-    
     public final void register(Identifier entityIdentifier, Class<? extends Entity> entityClass) {
-        registerNoID.register(entityClass, entityIdentifier.toString());
+        register.register(entityClass, entityIdentifier);
     }
 }
