@@ -5,7 +5,7 @@ import net.mine_diver.unsafeevents.Event;
 import net.minecraft.entity.Entity;
 
 @SuperBuilder
-public class EntityRegister extends Event {
+public class EntityRegistryEvent extends Event {
     @FunctionalInterface
     public interface RegisterFunction {
         void register(Class<? extends Entity> entityClass, String entityIdentifier, int entityId);
