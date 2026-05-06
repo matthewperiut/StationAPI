@@ -12,8 +12,8 @@ public class EntityListener {
 
     @EventListener
     public void registerEntities(EntityRegisterEvent event) {
-        event.register("sltest:test", TestEntity.class);
-        event.register("GPoor", PoorGuy.class);
+        event.register(NAMESPACE.id("test"), TestEntity.class);
+        event.register(NAMESPACE.id("gpoor"), PoorGuy.class);
     }
 
     @EventListener
