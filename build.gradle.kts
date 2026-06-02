@@ -48,6 +48,14 @@ allprojects {
         maven(url = "https://mvn.devos.one/releases")
         maven(url = "https://maven.wispforest.io")
         maven(url = "https://jitpack.io/")
+
+        maven(url = "https://libraries.minecraft.net") {
+            name = "Mojang"
+            content {
+                includeModule("com.mojang", "datafixerupper") // https://github.com/Mojang/DataFixerUpper
+            }
+        }
+
         mavenCentral()
         exclusiveContent {
             forRepository {
