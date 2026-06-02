@@ -38,8 +38,8 @@ allprojects {
         }
     }
 
-    java.sourceCompatibility = JavaVersion.VERSION_25
-    java.targetCompatibility = JavaVersion.VERSION_25
+    java.sourceCompatibility = JavaVersion.VERSION_21
+    java.targetCompatibility = JavaVersion.VERSION_21
 
     repositories {
         maven(url = "https://maven.minecraftforge.net/")
