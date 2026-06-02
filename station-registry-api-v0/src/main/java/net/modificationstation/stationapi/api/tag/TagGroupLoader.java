@@ -17,7 +17,6 @@ import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.resource.Resource;
 import net.modificationstation.stationapi.api.resource.ResourceManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Reader;
@@ -55,9 +54,7 @@ public class TagGroupLoader<T> {
                         JsonElement jsonElement = JsonParser.parseReader(reader);
                         List<TrackedEntry> list = map.computeIfAbsent(identifier2, identifierx -> new ArrayList<>());
                         DataResult<TagFile> var10000 = TagFile.CODEC.parse(new Dynamic<>(JsonOps.INSTANCE, jsonElement));
-                        Logger var10002 = LOGGER;
-                        Objects.requireNonNull(var10002);
-                        TagFile tagFile = var10000.getOrThrow(false, var10002::error);
+                        TagFile tagFile = var10000.getOrThrow();
                         if (tagFile.replace()) list.clear();
 
                         String string2 = resource.getResourcePackName();

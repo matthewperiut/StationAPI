@@ -11,6 +11,8 @@ import net.modificationstation.stationapi.api.template.item.TemplatePickaxeItem;
 import net.modificationstation.stationapi.api.util.Identifier;
 import net.modificationstation.stationapi.api.util.math.Direction;
 
+import static net.modificationstation.sltest.SLTest.NAMESPACE;
+
 public class ModdedPickaxeItem extends TemplatePickaxeItem implements CustomDispenseBehavior {
 
     public ModdedPickaxeItem(Identifier identifier, ToolMaterial material) {
@@ -27,7 +29,7 @@ public class ModdedPickaxeItem extends TemplatePickaxeItem implements CustomDisp
             return true;
         } else if (facing == Direction.UP.ordinal()) {
             if (!level.isRemote) {
-                LivingEntity entity = (LivingEntity) EntityRegistry.create("GPoor", level);
+                LivingEntity entity = (LivingEntity) EntityRegistry.create(NAMESPACE.id("gpoor").toString(), level);
                 entity.setPosition(x + 0.5, y + 1, z + 0.5);
                 level.spawnEntity(entity);
                 entity.animateSpawn();
@@ -40,7 +42,7 @@ public class ModdedPickaxeItem extends TemplatePickaxeItem implements CustomDisp
 
     @Override
     public void dispense(ItemDispenseContext context) {
-        LivingEntity entity = (LivingEntity) EntityRegistry.create("GPoor", context.dispenser.world);
+        LivingEntity entity = (LivingEntity) EntityRegistry.create(NAMESPACE.id("gpoor").toString(), context.dispenser.world);
         context.shootEntity(entity);
     }
 }

@@ -72,6 +72,9 @@
       ],
       "net/minecraft/unmapped/C_90532916": [
         "net/modificationstation/stationapi/api/world/dimension/StationDimension"
+      ],
+      "net/minecraft/class_139": [
+        "net/modificationstation/stationapi/api/stat/StationFlatteningStat"
       ]
     }
   }

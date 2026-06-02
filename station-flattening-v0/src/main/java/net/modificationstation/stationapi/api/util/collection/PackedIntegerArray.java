@@ -1,10 +1,10 @@
 package net.modificationstation.stationapi.api.util.collection;
 
-import com.google.common.base.Preconditions;
 import net.modificationstation.stationapi.api.world.chunk.CompactingPackedIntegerArray;
 import net.modificationstation.stationapi.impl.world.chunk.Palette;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.function.IntConsumer;
 
 public class PackedIntegerArray
@@ -59,7 +59,7 @@ implements PaletteStorage, CompactingPackedIntegerArray {
     }
 
     public PackedIntegerArray(int elementBits, int size, @SuppressWarnings("NullableProblems") @Nullable long[] data) {
-        Preconditions.checkArgument(elementBits >= 1 && elementBits <= 32);
+        Objects.checkIndex(elementBits - 1, 32);
         this.size = size;
         this.elementBits = elementBits;
         this.maxValue = (1L << elementBits) - 1L;
@@ -87,8 +87,8 @@ implements PaletteStorage, CompactingPackedIntegerArray {
 
     @Override
     public int swap(int index, int value) {
-        Preconditions.checkArgument(index >= 0 && index < this.size);
-        Preconditions.checkArgument(value >= 0 && value <= this.maxValue);
+        Objects.checkIndex(index, this.size);
+        Objects.checkIndex(value, this.maxValue + 1);
         int i = this.getStorageIndex(index);
         long l = this.data[i];
         int j = (index - i * this.elementsPerLong) * this.elementBits;
@@ -99,8 +99,8 @@ implements PaletteStorage, CompactingPackedIntegerArray {
 
     @Override
     public void set(int index, int value) {
-        Preconditions.checkArgument(index >= 0 && index < this.size);
-        Preconditions.checkArgument(value >= 0 && value <= this.maxValue);
+        Objects.checkIndex(index, this.size);
+        Objects.checkIndex(value, this.maxValue + 1);
         int i = this.getStorageIndex(index);
         long l = this.data[i];
         int j = (index - i * this.elementsPerLong) * this.elementBits;
@@ -109,7 +109,7 @@ implements PaletteStorage, CompactingPackedIntegerArray {
 
     @Override
     public int get(int index) {
-        Preconditions.checkArgument(index >= 0 && index < this.size);
+        Objects.checkIndex(index, this.size);
         int i = this.getStorageIndex(index);
         long l = this.data[i];
         int j = (index - i * this.elementsPerLong) * this.elementBits;
