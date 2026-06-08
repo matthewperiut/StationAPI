@@ -193,6 +193,11 @@ allprojects {
             }
         }
     }
+
+    tasks.register("purgeBuildFolder") {
+        group = "stapi"
+        project.file("build").deleteRecursively()
+    }
 }
 
 //Subprojects will set these themselves
